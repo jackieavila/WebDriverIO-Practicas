@@ -56,15 +56,23 @@ exports.config = {
         //goog:chromeOptions, esta  nos permite enviar comando especiales al navegador sin que este se abra
         'goog:chromeOptions': {
             //vamos a colocar algunos argumentos o lista de instrucciones de configuracion
-            args: [
-                'headless', // aqui es donde le decimos a chrome que no use ventanas visuales -> es como la MAGIA de la configuracion
-                '--disable-gpu', //cuando se usa el modo headless. esto evita que se activen errores de hardware grafico
-                '--window-size=1280,800',//como no existen ventanas fisicas le informamos al robot que tamaño de la ventana debe simular 
-                '--no-sandbox',//con esto lo tratamos de hacer es mejorar el rendimiento del servidor 
-                '--disable-dev-shm-usage',// esto evita problemas cuando exista algun tipo de memoria compartida
-            ]
+            args: ['--headless', // mantenemos el modo invisible aqui es donde le decimos a chrome que no use ventanas visuales -> es como la MAGIA de la configuracion
+                 ]
+        }
+    },
+
+
+
+
+    // VAMOS A CONFIGURAR FIREFOX
+    { 
+        browserName: 'firefox',
+        //estas son las  instrucciones especificas para firefox
+        'moz:firefoxOptions':{
+            args: ['-headless'] // firefox debe usar un guion antes del headless
         }
     }],
+
 
     //
     // ===================
@@ -136,7 +144,26 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: ['spec'],
+    reporters: [
+        ['spec', {
+            Symbol:{
+                passed: '✓ ',
+                failed: '❌'
+
+
+            }
+
+        }],
+        ['allure',{
+
+            outputDir:'allure-results', // esto nos dice donde se va guardar los reportes
+            disableWebdriverStepsReporting: true,
+            disableWebdriverScreenshotsReporting: false,
+        
+    }]
+
+
+    ],
 
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
